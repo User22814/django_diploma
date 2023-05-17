@@ -1,0 +1,140 @@
+{% extends 'django_salary/components/base.html' %}
+
+{% load static %}
+
+{% block title %}Регистрация новых заказов{% endblock title %}
+{% block main %}
+<div class="container mt-5">
+    <h3 class="mb-3">Регистрация новых заказов</h3>
+{#    <hr class="my-4" style="opacity: 0;">#}
+    <h7 class="mb-3 text-danger">* - помечены обязательные поля для заполнения</h7>
+    <form method="post" action="{% url 'baseorder_register' %}">
+        {% csrf_token %}
+
+        <hr class="my-4" style="opacity: 0;">
+
+        <div class="col-12">
+          <label for="parsing_date" class="form-label">Дата разбора*</label>
+          <input type="date" class="form-control" name="parsing_date" id="parsing_date" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="parsing_numeration" class="form-label">Номер разбора* (последний номер разбора: {{ last_numeration }})</label>
+          <input type="number" class="form-control" name="parsing_numeration" id="parsing_numeration" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="band_or_performer" class="form-label">Группа/Исполнитель*</label>
+          <input type="text" class="form-control" name="band_or_performer" id="band_or_performer" placeholder="Пример: stray kids" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+{#        <hr class="my-4" style="opacity: 0.1;">#}
+{##}
+{#        <div class="col-12">#}
+{#          <label for="card_name" class="form-label">Название карты</label>#}
+{#          <input type="text" class="form-control" name="card_name" id="card_name" placeholder="" required="">#}
+{#          <div class="invalid-feedback">#}
+{#            Please enter your shipping address.#}
+{#          </div>#}
+{#        </div>#}
+
+{#        <hr class="my-4" style="opacity: 0.1;">#}
+{##}
+{#        <div class="col-12">#}
+{#          <label for="korean_price" class="form-label">Цена в Корейских вонах</label>#}
+{#          <input type="number" class="form-control" name="korean_price" id="korean_price" placeholder="0.4" required="">#}
+{#          <div class="invalid-feedback">#}
+{#            Please enter your shipping address.#}
+{#          </div>#}
+{#        </div>#}
+
+{#        <hr class="my-4" style="opacity: 0.1;">#}
+{##}
+{#        <div class="col-12">#}
+{#          <label for="uchety_obschee_za_razbor" class="form-label">Учеты (общее за разбор)</label>#}
+{#          <input type="number" class="form-control" name="uchety_obschee_za_razbor" id="uchety_obschee_za_razbor" placeholder="" required="">#}
+{#          <div class="invalid-feedback">#}
+{#            Please enter your shipping address.#}
+{#          </div>#}
+{#        </div>#}
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="track_code" class="form-label">Трек-код</label>
+          <input type="text" class="form-control" name="track_code" id="track_code" placeholder="">
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="parsing_status" class="form-label">Статус разбора*</label>
+            <select class="form-select" name="parsing_status" id="parsing_status" required>
+                <option value="Выкуплен">Выкуплен</option>
+                <option value="Прибыл к кор">Прибыл к кор</option>
+                <option value="Прибыл в KZ">Прибыл в KZ</option>
+              </select>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="seller_nick" class="form-label">Ник продавца*</label>
+          <input type="text" class="form-control" name="seller_nick" id="seller_nick" placeholder="Пример: @me" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+{#        <hr class="my-4" style="opacity: 0.1;">#}
+{##}
+{#        <div class="col-12">#}
+{#          <label for="nick_zanyavshego" class="form-label">Ник того, кто занял</label>#}
+{#          <input type="text" class="form-control" name="nick_zanyavshego" id="nick_zanyavshego" placeholder="" required="">#}
+{#          <div class="invalid-feedback">#}
+{#            Please enter your shipping address.#}
+{#          </div>#}
+{#        </div>#}
+
+{#        <hr class="my-4" style="opacity: 0.1;">#}
+{##}
+{#        <div class="col-12">#}
+{#          <label for="oplata_status" class="form-label">Статус оплаты</label>#}
+{#          <input type="checkbox" class="form-check" name="oplata_status" id="oplata_status" value="false">#}
+{#          <input type="checkbox" name="oplata_status" id="oplata_status" value="true">#}
+{#          <div class="invalid-feedback">#}
+{#            Please enter your shipping address.#}
+{#          </div>#}
+{#        </div>#}
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </div>
+
+        <hr class="my-4" style="opacity: 0;">
+        <hr class="my-4" style="opacity: 0;">
+
+    </form>
+  </div>
+{% endblock main %}

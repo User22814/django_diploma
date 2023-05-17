@@ -1,0 +1,34 @@
+<header class="p-3 bg-dark text-white">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'baseorder_list' %} " class="nav-link px-2 text-white">Список разборов</a></li>
+            <li><a href="{% url 'user_statistic' %} " class="nav-link px-2 text-white">Статистика</a></li>
+          {% endif %}
+{#            {% if user.is_superuser %}#}
+{#            <li><a href="{% url 'category_list' %} " class="nav-link px-2 text-white">Список заказов1</a></li>#}
+{#          {% endif %}#}
+      </ul>
+{#      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">#}
+{#        <input type="search" class="form-control form-control-dark" placeholder="Поиск..." aria-label="Search" />#}
+{#      </form>#}
+      <div class="text-end">
+        {% if request.user.is_authenticated %}
+            {% if user.is_superuser %}
+                <p class="text-info me-2">Пользователь: {{ request.user.username }} (Администратор)</p>
+            {% else %}
+                <p class="text-info me-2">Пользователь: {{ request.user.username }} (Менеджер)</p>
+            {% endif %}
+{#                    <button type="button" class="btn btn-outline-light me-2">Войти</button>#}
+              <a href="{% url 'profile_logout' %} " type="button" class="btn btn-outline-light me-2">Выйти</a>
+        {% else %}
+            <p></p>
+            <a href="{% url 'profile_login' %} " type="button" class="btn btn-outline-light me-2">Войти</a>
+            <a href="{% url 'profile_register' %} " type="button" class="btn btn-outline-light me-2">Регистрация</a>
+        {% endif %}
+{#        <button type="button" class="btn btn-warning">Зарегистрироваться</button>#}
+      </div>
+    </div>
+  </div>
+</header>

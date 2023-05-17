@@ -1,0 +1,112 @@
+{% extends 'django_salary/components/base.html' %}
+
+{% load static %}
+
+{% block title %}Регистрация новых заказов{% endblock title %}
+{% block main %}
+<div class="container mt-5">
+    <h3 class="mb-3">Изменение данных разбора № {{ baseorder_obj.parsing_numeration }}</h3>
+{#    <hr class="my-4" style="opacity: 0;">#}
+    <h7 class="mb-3 text-danger">* - помечены обязательные поля для заполнения</h7>
+    <form method="post" action="{% url 'baseorder_update' baseorder_obj.parsing_numeration  %}">
+        {% csrf_token %}
+
+        <hr class="my-4" style="opacity: 0;">
+
+        <div class="col-12">
+          <label for="parsing_date" class="form-label">Дата разбора*</label>
+          <input type="date" class="form-control" name="parsing_date" id="parsing_date" required value="{{ baseorder_obj.parsing_date }}">
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="parsing_numeration" class="form-label">Номер разбора* (последний номер разбора: {{ last_numeration }})</label>
+          <input type="number" class="form-control" name="parsing_numeration" id="parsing_numeration" required value="{{ baseorder_obj.parsing_numeration }}">
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="band_or_performer" class="form-label">Группа/Исполнитель*</label>
+          <input type="text" class="form-control" name="band_or_performer" id="band_or_performer" required value="{{ baseorder_obj.band_or_performer }}">
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="track_code" class="form-label">Трек-код</label>
+          <input type="text" class="form-control" name="track_code" id="track_code" value="{{ baseorder_obj.track_code }}">
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="parsing_status" class="form-label">Статус разбора*</label>
+            <select class="form-select" name="parsing_status" id="parsing_status" required value="{{ baseorder_obj.parsing_status }}">
+                {% if baseorder_obj.parsing_status == "Выкуплен" %}
+                <option value="Выкуплен">Выкуплен</option>
+                <option value="Прибыл к кор">Прибыл к кор</option>
+                <option value="Прибыл в KZ">Прибыл в KZ</option>
+                {% elif baseorder_obj.parsing_status == "Прибыл к кор" %}
+                <option value="Выкуплен">Выкуплен</option>
+                <option value="Прибыл к кор" selected>Прибыл к кор</option>
+                <option value="Прибыл в KZ">Прибыл в KZ</option>
+                {% elif baseorder_obj.parsing_status == "Прибыл в KZ" %}
+                <option value="Выкуплен">Выкуплен</option>
+                <option value="Прибыл к кор">Прибыл к кор</option>
+                <option value="Прибыл в KZ" selected>Прибыл в KZ</option>
+                {% endif %}
+<!--                {% if baseorder_obj.parsing_status == "Выкуплен" %}-->
+<!--                <option value="Выкуплен">Выкуплен</option>-->
+<!--                <option value="Прибыл к кор">Прибыл к кор</option>-->
+<!--                <option value="Прибыл в KZ">Прибыл в KZ</option>-->
+<!--                {% elif baseorder_obj.parsing_status == "Прибыл к кор" %}-->
+<!--                <option value="Прибыл к кор">Прибыл к кор</option>-->
+<!--                <option value="Выкуплен">Выкуплен</option>-->
+<!--                <option value="Прибыл в KZ">Прибыл в KZ</option>-->
+<!--                {% elif baseorder_obj.parsing_status == "Прибыл в KZ" %}-->
+<!--                <option value="Прибыл в KZ">Прибыл в KZ</option>-->
+<!--                <option value="Выкуплен">Выкуплен</option>-->
+<!--                <option value="Прибыл к кор">Прибыл к кор</option>-->
+<!--                {% endif %}-->
+              </select>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="seller_nick" class="form-label">Ник продавца*</label>
+          <input type="text" class="form-control" name="seller_nick" id="seller_nick" required value="{{ baseorder_obj.seller_nick }}">
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Изменить</button>
+        </div>
+
+        <hr class="my-4" style="opacity: 0;">
+        <hr class="my-4" style="opacity: 0;">
+
+    </form>
+  </div>
+{% endblock main %}

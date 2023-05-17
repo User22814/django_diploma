@@ -1,0 +1,59 @@
+{% extends 'django_salary/components/base.html' %}
+{% load static %}
+{% block title %}Начальная страница{% endblock title %}
+{% block main %}
+
+<div class="container my-5">
+  <h3 class="mb-4">Ваши выполненные разборы</h3>
+{#<hr class="my-4" style="opacity: 0;">#}
+  <a href="{% url 'baseorder_register' %}" type="button" class="btn btn-primary">Добавить разбор</a>
+<hr class="my-4" style="opacity: 0;">
+<div class="container">
+{#        <table class="table table-bordered">#}
+        <table class="table table-bordered border border-black">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Пользователь</th>
+              <th scope="col">Номер разбора</th>
+              <th scope="col">Дата разбора</th>
+              <th scope="col">Количество элементов в разборе</th>
+              <th scope="col">Группа/Исполнитель</th>
+              <th scope="col">Трек-код посылки</th>
+              <th scope="col">Статус разбора</th>
+              <th scope="col">Ник продавца</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {%  for order in orders %}
+            <tr>
+              <th scope="row">{{ order.baseorder_numeration }}</th>
+              <td>{{ order.author}}</td>
+              <td>{{ order.parsing_numeration }}</td>
+              <td>{{ order.parsing_date }}</td>
+              <td>{{ order.count }}</td>
+              <td>{{ order.band_or_performer }}</td>
+              <td>{{ order.track_code }}</td>
+              <td class="text-success">{{ order.parsing_status }}</td>
+              <td>{{ order.seller_nick }}</td>
+              <td><a href="{% url 'baseorder_detail' order.parsing_numeration %}" class="btn btn-primary">Подробнее</a></td>
+              <td><a href="{% url 'baseorder_update' order.parsing_numeration %}" class="btn btn-primary">Изменить</a></td>
+              <td><a href="{% url 'baseorder_delete' order.parsing_numeration %}" class="btn btn-danger">Удалить</a></td>
+{#              <td><a href="#" class="btn btn-primary">{{ order.id }}</a></td>#}
+            </tr>
+    {#                        <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">Детально</a>#}
+            {% empty %}
+                <tr>
+                    <td class="my-0 fw-normal text-danger">Нет разборов</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock main %}

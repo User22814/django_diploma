@@ -1,0 +1,83 @@
+{% extends 'django_salary/components/base.html' %}
+{% load static %}
+{% block title %} {{ name }} {% endblock title %}
+{% block main %}
+
+<div class="container-fluid mt-5">
+    <h3 class="mb-4">Состав разбора</h3>
+    <a href="{% url 'order_register' baseorder_pk %}" type="button" class="btn btn-primary">Добавить позицию к разбору</a>
+    <hr class="my-4" style="opacity: 0;">
+{#  <a href="{% url '#' %}" type="button" class="btn btn-primary">Изменить</a>#}
+{#  <a href='#' type="button" class="btn btn-primary">Изменить</a>#}
+{#    <hr class="my-4" style="opacity: 0;">#}
+  <div class="container-fluid">
+      <table class="table table-bordered border border-black">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Пользователь</th>
+              <th scope="col">Дата разбора</th>
+              <th scope="col">Номер разбора</th>
+              <th scope="col">Группа/Исполнитель</th>
+              <th scope="col">Название карты</th>
+              <th scope="col">Цена в Корейских вонах</th>
+              <th scope="col">Цена в тенге (без учетов)</th>
+              <th scope="col">Прибыль</th>
+              <th scope="col">Учеты (общее за разбор)</th>
+              <th scope="col">Зарплата</th>
+              <th scope="col">Трек-код посылки</th>
+              <th scope="col">Статус разбора</th>
+              <th scope="col">Ник продавца</th>
+              <th scope="col">Статус зарплаты</th>
+              <th scope="col">Ник того, кто занял</th>
+              <th scope="col">Статус оплаты</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+          {%  for order_obj in order_objs %}
+            <tr>
+                <td>{{ order_obj.order_numeration }}</td>
+                <td>{{ order_obj.author }}</td>
+                <td>{{ order_obj.parsing_date }}</td>
+                <td >{{ order_obj.parsing_numeration }}</td>
+                <td>{{ order_obj.band_or_performer }}</td>
+                <td style="white-space: pre-line;">{{ order_obj.card_name }}</td>
+                <td>{{ order_obj.korean_price }}</td>
+{#                <td>{{ order_obj.price_v_tenge_po_kursu }}</td>#}
+                <td>{{ order_obj.price_v_tenge_bez_uchetov }}</td>
+                <td>{{ order_obj.pribyl }}</td>
+                <td>{{ order_obj.uchety_obschee_za_razbor }}</td>
+{#                <td>{{ order_obj.itogo_po_razboru }}</td>#}
+                <td>{{ order_obj.zarplata }}</td>
+                <td>{{ order_obj.track_code }}</td>
+                <td class="text-success">{{ order_obj.parsing_status }}</td>
+                <td>{{ order_obj.seller_nick }}</td>
+{#                <td>{{ order_obj.zarplata_status }}#}
+                <td>
+                    {% if order_obj.zarplata_status %}
+                  <div class="text-success">Оплачено</div>
+                    {% else %}
+                  <div class="text-danger">Не оплачено</div>
+                    {% endif %}
+                </td>
+                <td>{{ order_obj.nick_zanyavshego }}</td>
+{#                <td>{{ order_obj.oplata_status }}#}
+                <td>
+                    {% if order_obj.oplata_status %}
+                  <div class="text-success">Оплачено</div>
+                    {% else %}
+                  <div class="text-danger">Не оплачено</div>
+                    {% endif %}
+                </td>
+{#                <td><a href='#' class="btn btn-primary">{{ order_obj.id }}</a></td>#}
+                <td><a href='{% url 'order_update' order_obj.id %}' class="btn btn-primary">Изменить</a></td>
+                <td><a href='{% url 'order_delete' order_obj.id %}' class="btn btn-danger">Удалить</a></td>
+            </tr>
+              {% empty %}
+              <td class="text-danger">Нет элементов у разбора</td>
+          {% endfor %}
+      </table>
+  </div>
+{% endblock main %}

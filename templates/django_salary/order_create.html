@@ -1,0 +1,82 @@
+{% extends 'django_salary/components/base.html' %}
+
+{% load static %}
+
+{% block title %}Регистрация новых заказов{% endblock title %}
+{% block main %}
+<div class="container mt-5">
+    <h3 class="mb-3">Регистрация нового элемента к разбору</h3>
+    <h7 class="mb-3 text-danger">* - помечены обязательные поля для заполнения</h7>
+    <form method="post" action="{% url 'order_register' baseorder_pk %}">
+        {% csrf_token %}
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="card_name" class="form-label">Название карты/альбома*</label>
+          <input type="text" class="form-control" name="card_name" id="card_name" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="korean_price" class="form-label">Цена в Корейских вонах*</label>
+          <input type="number" class="form-control" name="korean_price" id="korean_price" step="0.01" min="0" max="100" placeholder="Пример: 0,4" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="uchety_obschee_za_razbor" class="form-label">Цена в тенге (без учетов)*</label>
+          <input type="number" class="form-control" name="price_v_tenge_bez_uchetov" id="price_v_tenge_bez_uchetov" placeholder="" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="uchety_obschee_za_razbor" class="form-label">Учеты (общее за разбор)*</label>
+          <input type="number" class="form-control" name="uchety_obschee_za_razbor" id="uchety_obschee_za_razbor" placeholder="" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+          <label for="nick_zanyavshego" class="form-label">Ник того, кто занял*</label>
+          <input type="text" class="form-control" name="nick_zanyavshego" id="nick_zanyavshego" placeholder="Пример: @me" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+{#          <input type="checkbox" class="form-check" name="oplata_status" id="oplata_status" value="false">#}
+          <input type="checkbox" class="form-check-input" name="oplata_status" id="oplata_status">
+          <label for="oplata_status" class="form-label">Статус оплаты</label>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </div>
+
+    </form>
+  </div>
+{% endblock main %}
