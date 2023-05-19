@@ -19,6 +19,7 @@ import plotly.graph_objs as go
 import plotly.offline as opy
 from django.core.cache import caches
 from django_salary.utils import logging
+from django.views.decorators.cache import cache_page
 
 
 default_cache = caches['default']
@@ -153,6 +154,7 @@ def profile_register(request: HttpRequest) -> HttpResponse:
         return redirect("profile_login")
 
 
+@cache_page(60 * 5)
 @logging
 def profile_login(request: HttpRequest):
     if request.method == 'GET':
