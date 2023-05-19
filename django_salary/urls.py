@@ -45,6 +45,6 @@ urlpatterns = [
 
     path("orders/download_excel_statistic/", views.download_excel_statistic, name="download_excel_statistic"),
 
-    path("/", views.order_list_for_unregistered, name="order_list_for_unregistered"),
+    path("main/", views.order_list_for_unregistered, name="order_list_for_unregistered"),
 
 ]

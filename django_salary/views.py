@@ -59,7 +59,7 @@ def update_cache(key: str, function_queryset: any) -> any:
         default_cache.set(key, result, timeout=10 * MULTIPLY)
         # print(result)
     else:
-        print("В update_cache RAM не хватает")
+        # print("В update_cache RAM не хватает")
         default_cache.delete(key)
     return True
 
@@ -122,7 +122,7 @@ def profile_register(request: HttpRequest) -> HttpResponse:
         if user.is_authenticated:
             return redirect('baseorder_list')
         else:
-            return render(request, "django_salary/profile_register.html", context={})
+            return render(request, "django_salary/profile_register.html", context={"error": ""})
     elif request.method == "POST":
         name = request.POST["name"]
         username = request.POST["username"]
@@ -131,7 +131,7 @@ def profile_register(request: HttpRequest) -> HttpResponse:
 
         if password1 != password2:
             # raise Exception("incorrect password")
-            return render(request, "django_salary/components/error.html",
+            return render(request, "django_salary/profile_register.html",
                           context={"error": f"password1 и password2 не одинаковы"})
 
         # pattern = r'^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])[A-Za-z\d!@#$%^&*()_+]{8,}$'
@@ -139,8 +139,11 @@ def profile_register(request: HttpRequest) -> HttpResponse:
         # if not re.match(pattern, password1):
         if len(password1) < 5:
             # raise Exception("Пароль должен содержать минимум 8 символов, одну заглавную, одну строчную букву и одно число")
-            return render(request, "django_salary/components/error.html",
-                          context={"error": f"Пароль должен содержать минимум 4 символов"})
+            return render(request, "django_salary/profile_register.html", context={"error": "Пароль должен содержать минимум 4 символов"})
+
+        if len(User.objects.filter(username=username)) > 0:
+            return render(request, "django_salary/profile_register.html",
+                          context={"error": f"Пользователь с username: {username} уже существует"})
 
         user = User.objects.create_user(
             username=username,
@@ -154,8 +157,8 @@ def profile_register(request: HttpRequest) -> HttpResponse:
         return redirect("profile_login")
 
 
-@cache_page(60 * 5)
 @logging
+# @cache_page(60 * 5)
 def profile_login(request: HttpRequest):
     if request.method == 'GET':
         user = request.user
@@ -238,7 +241,7 @@ def baseorder_list(request: HttpRequest) -> HttpResponse:
         # print(f"size in baseorder_list: {sys.getsizeof(result)} bytes")
         memory_usage = psutil.Process().memory_info().rss
         # print(f"size in baseorder_list: {round(sys.getsizeof(result) / 1024 / 1024, 5)} megabytes")
-        print(f"Memory usage: {memory_usage / 1024 / 1024} megabytes")
+        # print(f"Memory usage: {memory_usage / 1024 / 1024} megabytes")
         if len(result) != 0:
             last_elem = result[-1]
             last_parsing_numeration = last_elem["parsing_numeration"]
@@ -1232,7 +1235,10 @@ def zp_bool_change(request: HttpRequest, pk_id: int):
                  f"Номер разбора: {order_obj.base_order.parsing_numeration} | "
                  f"zarplata_status: {zarplata_status_old} -> {zarplata_status}",
         )
-        return redirect('user_statistic')
+        # return redirect('user_statistic')
+        path = request.path
+        # print(f"PATH = {path}")
+        return redirect(f'/orders/statistic/?user_name={order_obj.base_order.author.username}')
 
 
 @logging

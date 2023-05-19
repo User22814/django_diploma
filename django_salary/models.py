@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         error_messages=False,
         primary_key=False,
-        unique=False,
+        # unique=False,
         editable=True,
         blank=True,
         null=True,

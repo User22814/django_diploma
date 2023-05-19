@@ -29,7 +29,7 @@ urlpatterns = [
 ]
 
 if not settings.DEBUG:
-    re_path(r'^.*$', lambda request: redirect('django_app:', permanent=False), name='redirect')
+    re_path(r'^.*$', lambda request: redirect('main/', permanent=False), name='redirect')
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
