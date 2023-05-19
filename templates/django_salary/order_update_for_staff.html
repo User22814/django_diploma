@@ -2,56 +2,13 @@
 
 {% load static %}
 
-{% block title %}Изменение данных элемента к разбору{% endblock title %}
+{% block title %}Замена статуса разбора{% endblock title %}
 {% block main %}
 <div class="container mt-5">
-    <h3 class="mb-3">Изменение данных элемента к разбору</h3>
+    <h3 class="mb-3">Замена статуса разбора</h3>
     <h7 class="mb-3 text-danger">* - помечены обязательные поля для заполнения</h7>
-    <form method="post" action="{% url 'order_update' pk_id %}">
+    <form method="post" action="{% url 'order_update_for_staff' pk_id %}">
         {% csrf_token %}
-
-        <hr class="my-4" style="opacity: 0.1;">
-
-        <div class="col-12">
-          <label for="card_name" class="form-label">Название карты/альбома*</label>
-          <input type="text" class="form-control" name="card_name" id="card_name" required value="{{ order_obj.card_name }}">
-          <div class="invalid-feedback">
-            Please enter your shipping address.
-          </div>
-        </div>
-
-        <hr class="my-4" style="opacity: 0.1;">
-
-        <div class="col-12">
-          <label for="korean_price" class="form-label">Цена в Корейских вонах*</label>
-{#          <input type="number" class="form-control" name="korean_price" id="korean_price" step="0.01" min="0" max="100" required value="{{ order_obj.korean_price }}">#}
-          <input type="text" class="form-control" name="korean_price" id="korean_price" required value="{{ order_obj.korean_price }}">
-          <div class="invalid-feedback">
-            Please enter your shipping address.
-          </div>
-        </div>
-
-        <hr class="my-4" style="opacity: 0.1;">
-
-        <div class="col-12">
-          <label for="uchety_obschee_za_razbor" class="form-label">Цена в тенге (без учетов)*</label>
-{#          <input type="number" class="form-control" name="price_v_tenge_bez_uchetov" id="price_v_tenge_bez_uchetov" placeholder="" required>#}
-            <input type="text" class="form-control" name="price_v_tenge_bez_uchetov" id="price_v_tenge_bez_uchetov" required value="{{ order_obj.price_v_tenge_bez_uchetov }}">
-          <div class="invalid-feedback">
-            Please enter your shipping address.
-          </div>
-        </div>
-
-        <hr class="my-4" style="opacity: 0.1;">
-
-        <div class="col-12">
-          <label for="uchety_obschee_za_razbor" class="form-label">Учеты (общее за разбор)*</label>
-{#          <input type="number" class="form-control" name="uchety_obschee_za_razbor" id="uchety_obschee_za_razbor" required value="{{ order_obj.uchety_obschee_za_razbor }}">#}
-          <input type="text" class="form-control" name="uchety_obschee_za_razbor" id="uchety_obschee_za_razbor" required value="{{ order_obj.uchety_obschee_za_razbor }}">
-          <div class="invalid-feedback">
-            Please enter your shipping address.
-          </div>
-        </div>
 
         <hr class="my-4" style="opacity: 0.1;">
 
@@ -104,30 +61,6 @@
               </select>
           <div class="invalid-feedback">
             Please enter your shipping address.
-          </div>
-        </div>
-
-        <hr class="my-4" style="opacity: 0.1;">
-
-        <div class="col-12">
-          <label for="nick_zanyavshego" class="form-label">Ник того, кто занял*</label>
-          <input type="text" class="form-control" name="nick_zanyavshego" id="nick_zanyavshego" required value="{{ order_obj.nick_zanyavshego }}">
-          <div class="invalid-feedback">
-            Please enter your shipping address.
-          </div>
-        </div>
-
-        <hr class="my-4" style="opacity: 0.1;">
-
-        <div class="col-12">
-        <label for="oplata_status" class="form-label">Статус оплаты</label>
-            {% if order_obj.oplata_status %}
-          <input type="checkbox" class="form-check-input" name="oplata_status" id="oplata_status" checked>
-            {% else %}
-          <input type="checkbox" class="form-check-input" name="oplata_status" id="oplata_status">
-            {% endif %}
-          <div class="invalid-feedback">
-            Zip code required.
           </div>
         </div>
 

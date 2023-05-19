@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_yasg',
+    'django_crontab',
 
     'rest_framework',
     'rest_framework_simplejwt',
@@ -79,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # 'django_salary.context_processors.user_access',
             ],
         },
     },
@@ -185,3 +188,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
+CRONJOBS = [
+    ('0 23 * * *', 'django_salary.cron.my_cron_job'),
+]

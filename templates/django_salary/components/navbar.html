@@ -2,12 +2,25 @@
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          {% if user.is_authenticated %}
-            <li><a href="{% url 'baseorder_list' %} " class="nav-link px-2 text-white">Список разборов</a></li>
-            <li><a href="{% url 'user_statistic' %} " class="nav-link px-2 text-white">Статистика</a></li>
+            <li><a href="{% url 'order_list_for_unregistered' %}" class="nav-link px-2 text-white">Общий список разборов</a></li>
+          {% if user.is_authenticated and user.is_staff %}
+            <li><a href="{% url 'order_list_for_staff' %}" class="nav-link px-2 text-white">Замена статуса разборов</a></li>
           {% endif %}
+          {% if user.is_authenticated and user.is_superuser %}
+            <li><a href="{% url 'baseorder_list' %} " class="nav-link px-2 text-white">Список всех разборов</a></li>
+            <li><a href="{% url 'user_statistic' %} " class="nav-link px-2 text-white">Статистика персонала</a></li>
+            <li><a href="{% url 'get_plot' %} " class="nav-link px-2 text-white">Графики персонала</a></li>
+            <li><a href="{% url 'salary' %} " class="nav-link px-2 text-white">Распределение ЗП</a></li>
+          {% elif user.is_authenticated and not user.is_superuser %}
+            <li><a href="{% url 'baseorder_list' %} " class="nav-link px-2 text-white">Список моих разборов</a></li>
+            <li><a href="{% url 'user_statistic' %} " class="nav-link px-2 text-white">Моя Статистика</a></li>
+            <li><a href="{% url 'get_plot' %} " class="nav-link px-2 text-white">График</a></li>
+          {% endif %}
+{#            {% if user.is_staff %}#}
+{#            <li><a href="#" class="nav-link px-2 text-white">Ты staff</a></li>#}
+{#            {% endif %}#}
 {#            {% if user.is_superuser %}#}
-{#            <li><a href="{% url 'category_list' %} " class="nav-link px-2 text-white">Список заказов1</a></li>#}
+{#            <li><a href="#" class="nav-link px-2 text-white">Список заказов1</a></li>#}
 {#          {% endif %}#}
       </ul>
 {#      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">#}
@@ -16,9 +29,9 @@
       <div class="text-end">
         {% if request.user.is_authenticated %}
             {% if user.is_superuser %}
-                <p class="text-info me-2">Пользователь: {{ request.user.username }} (Администратор)</p>
+                <p class="text-info me-2">Пользователь: {{ request.user.username }} (Главный Администратор)</p>
             {% else %}
-                <p class="text-info me-2">Пользователь: {{ request.user.username }} (Менеджер)</p>
+                <p class="text-info me-2">Пользователь: {{ request.user.username }} (Администратор)</p>
             {% endif %}
 {#                    <button type="button" class="btn btn-outline-light me-2">Войти</button>#}
               <a href="{% url 'profile_logout' %} " type="button" class="btn btn-outline-light me-2">Выйти</a>

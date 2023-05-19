@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Регистрация новых заказов{% endblock title %}
+{% block title %}Изменение данных разбора{% endblock title %}
 {% block main %}
 <div class="container mt-5">
     <h3 class="mb-3">Изменение данных разбора № {{ baseorder_obj.parsing_numeration }}</h3>
@@ -25,7 +25,7 @@
 
         <div class="col-12">
           <label for="parsing_numeration" class="form-label">Номер разбора* (последний номер разбора: {{ last_numeration }})</label>
-          <input type="number" class="form-control" name="parsing_numeration" id="parsing_numeration" required value="{{ baseorder_obj.parsing_numeration }}">
+          <input type="number" class="form-control" name="parsing_numeration" id="parsing_numeration" required disabled value="{{ baseorder_obj.parsing_numeration }}">
           <div class="invalid-feedback">
             Please enter your shipping address.
           </div>
@@ -51,42 +51,29 @@
           </div>
         </div>
 
-        <hr class="my-4" style="opacity: 0.1;">
-
-        <div class="col-12">
-          <label for="parsing_status" class="form-label">Статус разбора*</label>
-            <select class="form-select" name="parsing_status" id="parsing_status" required value="{{ baseorder_obj.parsing_status }}">
-                {% if baseorder_obj.parsing_status == "Выкуплен" %}
-                <option value="Выкуплен">Выкуплен</option>
-                <option value="Прибыл к кор">Прибыл к кор</option>
-                <option value="Прибыл в KZ">Прибыл в KZ</option>
-                {% elif baseorder_obj.parsing_status == "Прибыл к кор" %}
-                <option value="Выкуплен">Выкуплен</option>
-                <option value="Прибыл к кор" selected>Прибыл к кор</option>
-                <option value="Прибыл в KZ">Прибыл в KZ</option>
-                {% elif baseorder_obj.parsing_status == "Прибыл в KZ" %}
-                <option value="Выкуплен">Выкуплен</option>
-                <option value="Прибыл к кор">Прибыл к кор</option>
-                <option value="Прибыл в KZ" selected>Прибыл в KZ</option>
-                {% endif %}
-<!--                {% if baseorder_obj.parsing_status == "Выкуплен" %}-->
-<!--                <option value="Выкуплен">Выкуплен</option>-->
-<!--                <option value="Прибыл к кор">Прибыл к кор</option>-->
-<!--                <option value="Прибыл в KZ">Прибыл в KZ</option>-->
-<!--                {% elif baseorder_obj.parsing_status == "Прибыл к кор" %}-->
-<!--                <option value="Прибыл к кор">Прибыл к кор</option>-->
-<!--                <option value="Выкуплен">Выкуплен</option>-->
-<!--                <option value="Прибыл в KZ">Прибыл в KZ</option>-->
-<!--                {% elif baseorder_obj.parsing_status == "Прибыл в KZ" %}-->
-<!--                <option value="Прибыл в KZ">Прибыл в KZ</option>-->
-<!--                <option value="Выкуплен">Выкуплен</option>-->
-<!--                <option value="Прибыл к кор">Прибыл к кор</option>-->
-<!--                {% endif %}-->
-              </select>
-          <div class="invalid-feedback">
-            Please enter your shipping address.
-          </div>
-        </div>
+{#        <hr class="my-4" style="opacity: 0.1;">#}
+{##}
+{#        <div class="col-12">#}
+{#          <label for="parsing_status" class="form-label">Статус разбора*</label>#}
+{#            <select class="form-select" name="parsing_status" id="parsing_status" required value="{{ baseorder_obj.parsing_status }}">#}
+{#                {% if baseorder_obj.parsing_status == "Выкуплен" %}#}
+{#                <option value="Выкуплен">Выкуплен</option>#}
+{#                <option value="Прибыл к кор">Прибыл к кор</option>#}
+{#                <option value="Прибыл в KZ">Прибыл в KZ</option>#}
+{#                {% elif baseorder_obj.parsing_status == "Прибыл к кор" %}#}
+{#                <option value="Выкуплен">Выкуплен</option>#}
+{#                <option value="Прибыл к кор" selected>Прибыл к кор</option>#}
+{#                <option value="Прибыл в KZ">Прибыл в KZ</option>#}
+{#                {% elif baseorder_obj.parsing_status == "Прибыл в KZ" %}#}
+{#                <option value="Выкуплен">Выкуплен</option>#}
+{#                <option value="Прибыл к кор">Прибыл к кор</option>#}
+{#                <option value="Прибыл в KZ" selected>Прибыл в KZ</option>#}
+{#                {% endif %}#}
+{#              </select>#}
+{#          <div class="invalid-feedback">#}
+{#            Please enter your shipping address.#}
+{#          </div>#}
+{#        </div>#}
 
         <hr class="my-4" style="opacity: 0.1;">
 

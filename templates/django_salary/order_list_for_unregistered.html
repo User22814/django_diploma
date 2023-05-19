@@ -1,0 +1,53 @@
+{% extends 'django_salary/components/base.html' %}
+{% load static %}
+{% block title %}Общий список разборов{% endblock title %}
+{% block main %}
+
+<div class="container-fluid mt-5">
+    <h3 class="mb-4">Общий список разборов</h3>
+    <hr class="my-4" style="opacity: 0;">
+  <div class="container-fluid">
+      <table class="table table-bordered border border-black">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Пользователь</th>
+              <th scope="col">Дата разбора</th>
+              <th scope="col">Номер разбора</th>
+              <th scope="col">Группа/Исполнитель</th>
+              <th scope="col">Название карты</th>
+              <th scope="col">Статус разбора</th>
+              <th scope="col">Ник того, кто занял</th>
+            </tr>
+            </thead>
+            <tbody>
+          {%  for order in orders %}
+            <tr>
+                <td>{{ order.order_numeration }}</td>
+                <td>{{ order.author }}</td>
+                <td>{{ order.parsing_date }}</td>
+                <td >{{ order.parsing_numeration }}</td>
+                <td>{{ order.band_or_performer }}</td>
+                <td>{{ order.card_name }}</td>
+                {% if order.parsing_status == "Выкуплен" %}
+                    <td><div style="color: red">{{ order.parsing_status }}</div></td>
+                {% elif order.parsing_status == "Отправлен к кор" %}
+                    <td><div style="color: darkorange">{{ order.parsing_status }}</div></td>
+                {% elif order.parsing_status == "Прибыл к кор" %}
+                    <td><div style="color: purple">{{ order.parsing_status }}</div></td>
+                {% elif order.parsing_status == "Отправлен в KZ" %}
+                    <td><div style="color: deepskyblue">{{ order.parsing_status }}</div></td>
+                {% elif order.parsing_status == "Прибыл в KZ" %}
+                    <td><div style="color: green">{{ order.parsing_status }}</div></td>
+                {% elif order.parsing_status == "Возврат" %}
+                    <td><div style="color: red">{{ order.parsing_status }}</div></td>
+                {% endif %}
+                <td>{{ order.nick_zanyavshego }}</td>
+            </tr>
+              {% empty %}
+              <td class="text-danger">Нет элементов разбора</td>
+          {% endfor %}
+      </table>
+  </div>
+</div>
+{% endblock main %}

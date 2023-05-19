@@ -1,0 +1,32 @@
+{% extends 'django_salary/components/base.html' %}
+
+{% load static %}
+
+{% block title %}Список зарплат{% endblock title %}
+{% block main %}
+<div class="container mt-5">
+    <h3 class="mb-3">Распределение Зарплат</h3>
+
+    <hr class="my-4" style="opacity: 0.1;">
+    <div class="row g-3">
+        {% for elem_all_userprofiles in all_userprofiles %}
+        <form method="post" action="{% url 'change_salary' elem_all_userprofiles.id %}">
+            {% csrf_token %}
+            <div class="col-md-2">
+                  <label for="card_name" class="form-label">{{ elem_all_userprofiles.user.username }}</label>
+                  <input type="text" class="form-control" name="zp" id="zp" required value="{{ elem_all_userprofiles.zp }}">
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Изменить</button>
+            </div>
+        </form>
+        <hr class="my-4" style="opacity: 0.1;">
+        {% endfor %}
+    </div>
+
+
+<hr class="my-4" style="opacity: 0;">
+<hr class="my-4" style="opacity: 0;">
+  </div>
+{% endblock main %}

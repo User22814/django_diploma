@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Регистрация новых заказов{% endblock title %}
+{% block title %}Регистрация новых разборов{% endblock title %}
 {% block main %}
 <div class="container mt-5">
     <h3 class="mb-3">Регистрация новых заказов</h3>
@@ -24,7 +24,11 @@
         <hr class="my-4" style="opacity: 0.1;">
 
         <div class="col-12">
+            {% if last_numeration != 0 %}
           <label for="parsing_numeration" class="form-label">Номер разбора* (последний номер разбора: {{ last_numeration }})</label>
+            {% else %}
+          <label for="parsing_numeration" class="form-label">Номер разбора* (разборов нет, начните с 1)</label>
+            {% endif %}
           <input type="number" class="form-control" name="parsing_numeration" id="parsing_numeration" required>
           <div class="invalid-feedback">
             Please enter your shipping address.
@@ -81,19 +85,22 @@
           </div>
         </div>
 
-        <hr class="my-4" style="opacity: 0.1;">
-
-        <div class="col-12">
-          <label for="parsing_status" class="form-label">Статус разбора*</label>
-            <select class="form-select" name="parsing_status" id="parsing_status" required>
-                <option value="Выкуплен">Выкуплен</option>
-                <option value="Прибыл к кор">Прибыл к кор</option>
-                <option value="Прибыл в KZ">Прибыл в KZ</option>
-              </select>
-          <div class="invalid-feedback">
-            Please enter your shipping address.
-          </div>
-        </div>
+{#        <hr class="my-4" style="opacity: 0.1;">#}
+{##}
+{#        <div class="col-12">#}
+{#          <label for="parsing_status" class="form-label">Статус разбора*</label>#}
+{#            <select class="form-select" name="parsing_status" id="parsing_status" required>#}
+{#                <option value="Выкуплен">Выкуплен</option>#}
+{#                <option value="Отправлен к кор">Отправлен к кор</option>#}
+{#                <option value="Прибыл к кор">Прибыл к кор</option>#}
+{#                <option value="Отправлен в KZ">Отправлен в KZ</option>#}
+{#                <option value="Прибыл в KZ">Прибыл в KZ</option>#}
+{#                <option value="Возврат">Возврат</option>#}
+{#              </select>#}
+{#          <div class="invalid-feedback">#}
+{#            Please enter your shipping address.#}
+{#          </div>#}
+{#        </div>#}
 
         <hr class="my-4" style="opacity: 0.1;">
 
@@ -104,27 +111,6 @@
             Please enter your shipping address.
           </div>
         </div>
-
-{#        <hr class="my-4" style="opacity: 0.1;">#}
-{##}
-{#        <div class="col-12">#}
-{#          <label for="nick_zanyavshego" class="form-label">Ник того, кто занял</label>#}
-{#          <input type="text" class="form-control" name="nick_zanyavshego" id="nick_zanyavshego" placeholder="" required="">#}
-{#          <div class="invalid-feedback">#}
-{#            Please enter your shipping address.#}
-{#          </div>#}
-{#        </div>#}
-
-{#        <hr class="my-4" style="opacity: 0.1;">#}
-{##}
-{#        <div class="col-12">#}
-{#          <label for="oplata_status" class="form-label">Статус оплаты</label>#}
-{#          <input type="checkbox" class="form-check" name="oplata_status" id="oplata_status" value="false">#}
-{#          <input type="checkbox" name="oplata_status" id="oplata_status" value="true">#}
-{#          <div class="invalid-feedback">#}
-{#            Please enter your shipping address.#}
-{#          </div>#}
-{#        </div>#}
 
         <hr class="my-4" style="opacity: 0.1;">
 

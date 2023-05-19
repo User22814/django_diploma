@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Регистрация новых заказов{% endblock title %}
+{% block title %}Регистрация нового элемента к разбору{% endblock title %}
 {% block main %}
 <div class="container mt-5">
     <h3 class="mb-3">Регистрация нового элемента к разбору</h3>
@@ -53,6 +53,22 @@
         <hr class="my-4" style="opacity: 0.1;">
 
         <div class="col-12">
+          <label for="parsing_status" class="form-label">Статус разбора*</label>
+            <select class="form-select" name="parsing_status" id="parsing_status" required>
+                <option value="Выкуплен">Выкуплен</option>
+                <option value="Отправлен к кор">Отправлен к кор</option>
+                <option value="Прибыл к кор">Прибыл к кор</option>
+                <option value="Отправлен в KZ">Отправлен в KZ</option>
+                <option value="Прибыл в KZ">Прибыл в KZ</option>
+                <option value="Возврат">Возврат</option>
+              </select>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="col-12">
           <label for="nick_zanyavshego" class="form-label">Ник того, кто занял*</label>
           <input type="text" class="form-control" name="nick_zanyavshego" id="nick_zanyavshego" placeholder="Пример: @me" required>
           <div class="invalid-feedback">
@@ -78,5 +94,7 @@
         </div>
 
     </form>
+<hr class="my-4" style="opacity: 0;">
+<hr class="my-4" style="opacity: 0;">
   </div>
 {% endblock main %}

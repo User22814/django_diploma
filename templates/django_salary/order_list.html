@@ -1,15 +1,20 @@
 {% extends 'django_salary/components/base.html' %}
 {% load static %}
-{% block title %} {{ name }} {% endblock title %}
+{% block title %}Состав разбора{% endblock title %}
 {% block main %}
 
 <div class="container-fluid mt-5">
+    <a href="{% url 'baseorder_list' %}" type="button" class="btn btn-primary">Назад</a>
+    <hr class="my-4" style="opacity: 0;">
     <h3 class="mb-4">Состав разбора</h3>
     <a href="{% url 'order_register' baseorder_pk %}" type="button" class="btn btn-primary">Добавить позицию к разбору</a>
     <hr class="my-4" style="opacity: 0;">
 {#  <a href="{% url '#' %}" type="button" class="btn btn-primary">Изменить</a>#}
 {#  <a href='#' type="button" class="btn btn-primary">Изменить</a>#}
 {#    <hr class="my-4" style="opacity: 0;">#}
+{#{% if order_objs|length == 0 %}#}
+{#    <h3 class="mb-4">{{ order_objs|length }}</h3>#}
+{#{% endif %}#}
   <div class="container-fluid">
       <table class="table table-bordered border border-black">
             <thead>
@@ -52,13 +57,27 @@
 {#                <td>{{ order_obj.itogo_po_razboru }}</td>#}
                 <td>{{ order_obj.zarplata }}</td>
                 <td>{{ order_obj.track_code }}</td>
-                <td class="text-success">{{ order_obj.parsing_status }}</td>
+                {% if order_obj.parsing_status == "Выкуплен" %}
+                    <td><div style="color: red">{{ order_obj.parsing_status }}</div></td>
+                {% elif order_obj.parsing_status == "Отправлен к кор" %}
+                    <td><div style="color: darkorange">{{ order_obj.parsing_status }}</div></td>
+                {% elif order_obj.parsing_status == "Прибыл к кор" %}
+                    <td><div style="color: purple">{{ order_obj.parsing_status }}</div></td>
+                {% elif order_obj.parsing_status == "Отправлен в KZ" %}
+                    <td><div style="color: deepskyblue">{{ order_obj.parsing_status }}</div></td>
+                {% elif order_obj.parsing_status == "Прибыл в KZ" %}
+                    <td><div style="color: green">{{ order_obj.parsing_status }}</div></td>
+                {% elif order_obj.parsing_status == "Возврат" %}
+                    <td><div style="color: red">{{ order_obj.parsing_status }}</div></td>
+                {% endif %}
                 <td>{{ order_obj.seller_nick }}</td>
 {#                <td>{{ order_obj.zarplata_status }}#}
                 <td>
-                    {% if order_obj.zarplata_status %}
+                    {% if order_obj.zarplata_status == "-" %}
+                  <div class="text-danger">-</div>
+                    {% elif order_obj.zarplata_status %}
                   <div class="text-success">Оплачено</div>
-                    {% else %}
+                    {% elif not order_obj.zarplata_status %}
                   <div class="text-danger">Не оплачено</div>
                     {% endif %}
                 </td>
@@ -71,13 +90,18 @@
                   <div class="text-danger">Не оплачено</div>
                     {% endif %}
                 </td>
-{#                <td><a href='#' class="btn btn-primary">{{ order_obj.id }}</a></td>#}
                 <td><a href='{% url 'order_update' order_obj.id %}' class="btn btn-primary">Изменить</a></td>
                 <td><a href='{% url 'order_delete' order_obj.id %}' class="btn btn-danger">Удалить</a></td>
+{#                {% if order_obj.id == last_order_id %}#}
+{#                    <td><a href='{% url 'order_delete' order_obj.id %}' class="btn btn-danger">Удалить</a></td>#}
+{#                {% else %}#}
+{#                    <td></td>#}
+{#                {% endif %}#}
             </tr>
               {% empty %}
               <td class="text-danger">Нет элементов у разбора</td>
           {% endfor %}
       </table>
   </div>
+</div>
 {% endblock main %}

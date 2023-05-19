@@ -1,6 +1,6 @@
 {% extends 'django_salary/components/base.html' %}
 {% load static %}
-{% block title %}Начальная страница{% endblock title %}
+{% block title %}Список разборов{% endblock title %}
 {% block main %}
 
 <div class="container my-5">
@@ -20,7 +20,7 @@
               <th scope="col">Количество элементов в разборе</th>
               <th scope="col">Группа/Исполнитель</th>
               <th scope="col">Трек-код посылки</th>
-              <th scope="col">Статус разбора</th>
+{#              <th scope="col">Статус разбора</th>#}
               <th scope="col">Ник продавца</th>
               <th scope="col"></th>
               <th scope="col"></th>
@@ -38,11 +38,15 @@
               <td>{{ order.count }}</td>
               <td>{{ order.band_or_performer }}</td>
               <td>{{ order.track_code }}</td>
-              <td class="text-success">{{ order.parsing_status }}</td>
+{#              <td class="text-success">{{ order.parsing_status }}</td>#}
               <td>{{ order.seller_nick }}</td>
               <td><a href="{% url 'baseorder_detail' order.parsing_numeration %}" class="btn btn-primary">Подробнее</a></td>
               <td><a href="{% url 'baseorder_update' order.parsing_numeration %}" class="btn btn-primary">Изменить</a></td>
-              <td><a href="{% url 'baseorder_delete' order.parsing_numeration %}" class="btn btn-danger">Удалить</a></td>
+                {% if order.parsing_numeration == last_parsing_numeration %}
+                    <td><a href="{% url 'baseorder_delete' order.parsing_numeration %}" class="btn btn-danger">Удалить</a></td>
+                {% else %}
+                    <td></td>
+                {% endif %}
 {#              <td><a href="#" class="btn btn-primary">{{ order.id }}</a></td>#}
             </tr>
     {#                        <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">Детально</a>#}

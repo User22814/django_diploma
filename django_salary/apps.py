@@ -4,4 +4,4 @@ from django.apps import AppConfig
 class DjangoSalaryConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'django_salary'
-    verbose_name = "Электронный магазин"
+    verbose_name = "Разборы"

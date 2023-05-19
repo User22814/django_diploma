@@ -1,0 +1,68 @@
+{% extends 'django_salary/components/base.html' %}
+{% load static %}
+{% block title %}График{% endblock title %}
+{% block main %}
+
+<div class="container mt-5">
+    <h3 class="mb-4">Ваша статистика</h3>
+    <hr class="my-4" style="opacity: 0;">
+    <form method="get" action="{% url 'get_plot' %}">
+    <div class="row g-3">
+        <div class="col-md-2">
+          <label for="country" class="form-label">Дата от</label>
+            <input type="date" class="form-control" name="date_from" id="date_from" value="{{ date_from }}" max="{{ date_now }}">
+          <div class="invalid-feedback">
+            Please select a valid country.
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <label for="state" class="form-label">Дата до</label>
+            <input type="date" class="form-control" name="date_to" id="date_to" value="{{ date_to }}" max="{{ date_now }}">
+          <div class="invalid-feedback">
+            Please provide a valid state.
+          </div>
+        </div>
+
+        {% if user.is_superuser %}
+        <div class="col-md-2">
+          <label for="state" class="form-label">Персонал</label>
+            <select class="form-select" name="user_name" id="user_name" required>
+                {% for elem_of_username in list_of_username %}
+                    {% if user_name == "" %}
+                        <option value="{{ elem_of_username }}">{{ elem_of_username }}</option>
+                    {% else %}
+                        {% if elem_of_username == user_name %}
+                            <option value="{{ elem_of_username }}" selected>{{ elem_of_username }}</option>
+                        {% else %}
+                            <option value="{{ elem_of_username }}">{{ elem_of_username }}</option>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </select>
+          <div class="invalid-feedback">
+            Please provide a valid state.
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="col-md-2">
+<!--{#          <a href="{% url 'user_statistic' date_from date_to %}">Поиск</a>#}-->
+<!--          <a href="#" type="button" class="btn btn-primary">Поиск</a>-->
+            <button type="submit" class="btn btn-primary">Фильтрация</button>
+          <div class="invalid-feedback">
+            Zip code required.
+          </div>
+        </div>
+      </div>
+    </form>
+</div>
+{% if boolean_empty %}
+    <div class="container mt-5">
+        <p class="text-danger">За этот период данных нет</p>
+    </div>
+{% else %}
+    {{ graph_html | safe }}
+{% endif %}
+
+{% endblock main %}

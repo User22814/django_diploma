@@ -2,25 +2,25 @@
 
 {% load static %}
 
-{% block title %}Вход{% endblock title %}
+{% block title %}Распределение зарплаты{% endblock title %}
 {% block main %}
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
-          <h1 class="text-info text-center">Meloddy Shop</h1>
-          <img src="{% static 'media/logo.png' %}" class="card-img-top" alt="Product Image" width="250" height="500">
           <hr class="my-4" style="opacity: 0;">
         <div class="card">
-          <div class="card-header">
-            <h2 class="text-center">Вход в аккаунт</h2>
-          </div>
+            {% if boolean %}
+                <div class="card-header">
+                    <h2 class="text-center">{{ title }}</h2>
+                </div>
+            {% else %}
+                <div class="card-header">
+                    <h2 class="text-center text-danger">{{ title }}</h2>
+                </div>
+            {% endif %}
           <div class="card-body">
-            <form method="post" action="{% url 'profile_login' %}">
+            <form method="post" action="{% url 'salary' %}">
               {% csrf_token %}
-              <div class="mb-3">
-                <label for="username" class="form-label">Имя пользователя:</label>
-                <input type="text" name="username" id="username" class="form-control">
-              </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Пароль:</label>
                 <input type="password" name="password" id="password" class="form-control">
@@ -34,6 +34,4 @@
       </div>
     </div>
   </div>
-    <hr class="my-4" style="opacity: 0;">
-<hr class="my-4" style="opacity: 0;">
 {% endblock main %}

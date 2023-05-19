@@ -34,6 +34,18 @@ class UserProfile(models.Model):
 
         max_length=100,
     )
+    zp = models.IntegerField(
+        error_messages=False,
+        primary_key=False,
+        validators=[MinValueValidator(0), ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name='Распределение зарплаты',
+        help_text='<small class="text-muted">IntegerField [0, ]</small><hr><br>',
+    )
 
     class Meta:
         app_label = "auth"
@@ -46,18 +58,18 @@ class UserProfile(models.Model):
 
 
 class BaseOrders(models.Model):
-    baseorder_numeration = models.IntegerField(
-        error_messages=False,
-        primary_key=False,
-        validators=[MinValueValidator(0), ],
-        unique=False,
-        editable=True,
-        blank=True,
-        null=True,
-        default=None,
-        verbose_name='Номер записи',
-        help_text='<small class="text-muted">IntegerField [0, ]</small><hr><br>',
-    )
+    # baseorder_numeration = models.IntegerField(
+    #     error_messages=False,
+    #     primary_key=False,
+    #     validators=[MinValueValidator(0), ],
+    #     unique=False,
+    #     editable=True,
+    #     blank=True,
+    #     null=True,
+    #     default=None,
+    #     verbose_name='Номер записи',
+    #     help_text='<small class="text-muted">IntegerField [0, ]</small><hr><br>',
+    # )
     author = models.ForeignKey(
         error_messages=False,
         primary_key=False,
@@ -123,20 +135,20 @@ class BaseOrders(models.Model):
 
         max_length=3000,
     )
-    parsing_status = models.TextField(
-        error_messages=False,
-        primary_key=False,
-        validators=[MinLengthValidator(0), MaxLengthValidator(100), ],
-        unique=False,
-        editable=True,
-        blank=True,
-        null=True,
-        default='',
-        verbose_name='Статус разбора',
-        help_text='<small class="text-muted">text_field[0, 3000]</small><hr><br>',
-
-        max_length=100,
-    )
+    # parsing_status = models.TextField(
+    #     error_messages=False,
+    #     primary_key=False,
+    #     validators=[MinLengthValidator(0), MaxLengthValidator(100), ],
+    #     unique=False,
+    #     editable=True,
+    #     blank=True,
+    #     null=True,
+    #     default='',
+    #     verbose_name='Статус разбора',
+    #     help_text='<small class="text-muted">text_field[0, 3000]</small><hr><br>',
+    #
+    #     max_length=100,
+    # )
     seller_nick = models.TextField(
         error_messages=False,
         primary_key=False,
@@ -150,6 +162,20 @@ class BaseOrders(models.Model):
         help_text='<small class="text-muted">text_field[0, 3000]</small><hr><br>',
 
         max_length=3000,
+    )
+    created = models.DateTimeField(
+        error_messages=False,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=timezone.now,
+        verbose_name='Дата и время создания',
+        help_text='<small class="text-muted">DateTimeField</small><hr><br>',
+
+        auto_now=False,
+        auto_now_add=False,
     )
 
     class Meta:
@@ -167,18 +193,18 @@ class BaseOrders(models.Model):
 
 
 class Orders(models.Model):
-    order_numeration = models.IntegerField(
-        error_messages=False,
-        primary_key=False,
-        validators=[MinValueValidator(0), ],
-        unique=False,
-        editable=True,
-        blank=True,
-        null=True,
-        default=None,
-        verbose_name='Номер записи',
-        help_text='<small class="text-muted">IntegerField [0, ]</small><hr><br>',
-    )
+    # order_numeration = models.IntegerField(
+    #     error_messages=False,
+    #     primary_key=False,
+    #     validators=[MinValueValidator(0), ],
+    #     unique=False,
+    #     editable=True,
+    #     blank=True,
+    #     null=True,
+    #     default=None,
+    #     verbose_name='Номер записи',
+    #     help_text='<small class="text-muted">IntegerField [0, ]</small><hr><br>',
+    # )
     base_order = models.ForeignKey(
         error_messages=False,
         primary_key=False,
@@ -219,6 +245,20 @@ class Orders(models.Model):
         decimal_places=1,
         default=0.0,
         verbose_name='Цена каждой карты в Корейских ценах',
+        help_text='<small class="text-muted">DecimalField</small><hr><br>',
+    )
+    kurs_obmena = models.DecimalField(
+        error_messages=False,
+        primary_key=False,
+        max_digits=7,
+        unique=False,
+        validators=[MinValueValidator(0), MaxValueValidator(1000), ],
+        editable=True,
+        blank=True,
+        null=True,
+        decimal_places=4,
+        default=0.0,
+        verbose_name='Курс обмена',
         help_text='<small class="text-muted">DecimalField</small><hr><br>',
     )
     price_v_tenge_po_kursu = models.DecimalField(
@@ -305,6 +345,20 @@ class Orders(models.Model):
         verbose_name='Зарплата',
         help_text='<small class="text-muted">DecimalField</small><hr><br>',
     )
+    parsing_status = models.TextField(
+        error_messages=False,
+        primary_key=False,
+        validators=[MinLengthValidator(0), MaxLengthValidator(100), ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default='',
+        verbose_name='Статус разбора',
+        help_text='<small class="text-muted">text_field[0, 3000]</small><hr><br>',
+
+        max_length=100,
+    )
     zarplata_status = models.BooleanField(
         error_messages=False,
         primary_key=False,
@@ -341,6 +395,20 @@ class Orders(models.Model):
         verbose_name='Статус оплаты',
         help_text='<small class="text-muted">BooleanField</small><hr><br>',
     )
+    created = models.DateTimeField(
+        error_messages=False,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=timezone.now,
+        verbose_name='Дата и время создания',
+        help_text='<small class="text-muted">DateTimeField</small><hr><br>',
+
+        auto_now=False,
+        auto_now_add=False,
+    )
 
     class Meta:
         app_label = "django_salary"
@@ -353,6 +421,246 @@ class Orders(models.Model):
     #
     # def get_absolute_url(self):
     #     return reverse('category_detail', args=[self.slug])
+
+
+class LoggingModel(models.Model):
+    """
+    Модель, которая содержит логирование действий и ошибок django
+    """
+    username = models.CharField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        validators=[
+            MinLengthValidator(0),
+            MaxLengthValidator(100),
+        ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default="",
+        verbose_name="Имя пользователя",
+        help_text='<small class="text-muted">CharField [0, 100]</small><hr><br>',
+        max_length=100,
+    )
+    ip = models.GenericIPAddressField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        validators=[
+            MinLengthValidator(0),
+            MaxLengthValidator(300),
+        ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Ip адрес",
+        help_text='<small class="text-muted">ip[0, 300]</small><hr><br>',
+        max_length=300,
+        protocol="both",
+        unpack_ipv4=False,
+    )
+    path = models.SlugField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        validators=[
+            MinLengthValidator(0),
+            MaxLengthValidator(300),
+        ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default="",
+        verbose_name="Путь",
+        help_text='<small class="text-muted">SlugField [0, 300]</small><hr><br>',
+        max_length=300,
+        allow_unicode=False,
+    )
+    created = models.DateTimeField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=timezone.now,
+        verbose_name="Дата и время создания",
+        help_text='<small class="text-muted">DateTimeField</small><hr><br>',
+        auto_now=False,
+        auto_now_add=False,
+    )
+
+    class Meta:
+        app_label = "django_salary"
+        ordering = ("-created",)
+        verbose_name = "Лог"
+        verbose_name_plural = "Логи"
+
+    def __str__(self):
+        return f"{self.created} | {self.username}"
+
+
+class ActivityLoggingModel(models.Model):
+    """
+    Модель, которая содержит логирование действий и ошибок django
+    """
+    username = models.CharField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        validators=[
+            MinLengthValidator(0),
+            MaxLengthValidator(100),
+        ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default="",
+        verbose_name="Имя пользователя",
+        help_text='<small class="text-muted">CharField [0, 100]</small><hr><br>',
+        max_length=100,
+    )
+    myself = models.BooleanField(
+        error_messages=False,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=False,
+        default=False,
+        verbose_name='Сам совершил?',
+        help_text='<small class="text-muted">BooleanField</small><hr><br>',
+    )
+    activity = models.CharField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        validators=[
+            MinLengthValidator(0),
+            MaxLengthValidator(100),
+        ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default="",
+        verbose_name="Действие",
+        help_text='<small class="text-muted">CharField [0, 100]</small><hr><br>',
+        max_length=100,
+    )
+    text = models.TextField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        validators=[
+            MinLengthValidator(0),
+            MaxLengthValidator(3000),
+        ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default="",
+        verbose_name="Действие",
+        help_text='<small class="text-muted">TextField [0, 3000]</small><hr><br>',
+        max_length=3000,
+    )
+    created = models.DateTimeField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=timezone.now,
+        verbose_name="Дата и время создания",
+        help_text='<small class="text-muted">DateTimeField</small><hr><br>',
+        auto_now=False,
+        auto_now_add=False,
+    )
+
+    class Meta:
+        app_label = "django_salary"
+        ordering = ("-created",)
+        verbose_name = "Лог Действий"
+        verbose_name_plural = "Логи Действий"
+
+    def __str__(self):
+        return f"{self.created} | {self.username}"
+
+
+class BlackListIPModel(models.Model):
+    """
+    Модель, которая содержит логирование действий и ошибок django
+    """
+    ip = models.GenericIPAddressField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        validators=[
+            MinLengthValidator(0),
+            MaxLengthValidator(300),
+        ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Ip адрес",
+        help_text='<small class="text-muted">ip[0, 300]</small><hr><br>',
+        max_length=300,
+        protocol="both",
+        unpack_ipv4=False,
+    )
+    path = models.SlugField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        validators=[
+            MinLengthValidator(0),
+            MaxLengthValidator(300),
+        ],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default="",
+        verbose_name="Путь",
+        help_text='<small class="text-muted">SlugField [0, 300]</small><hr><br>',
+        max_length=300,
+        allow_unicode=False,
+    )
+    created = models.DateTimeField(
+        db_index=True,
+        error_messages=False,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=timezone.now,
+        verbose_name="Дата и время создания",
+        help_text='<small class="text-muted">DateTimeField</small><hr><br>',
+        auto_now=False,
+        auto_now_add=False,
+    )
+
+    class Meta:
+        app_label = "django_salary"
+        ordering = ("-created",)
+        verbose_name = "Черный IP"
+        verbose_name_plural = "Черный Лист IP"
+
+    def __str__(self):
+        return f"{self.created} | {self.ip}"
 
 
 # class Tovar(models.Model):
