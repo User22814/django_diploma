@@ -47,4 +47,6 @@ urlpatterns = [
 
     path("main/", views.order_list_for_unregistered, name="order_list_for_unregistered"),
 
+    path("user_statistic_for_admin/", views.user_statistic_for_admin, name="user_statistic_for_admin"),
+
 ]

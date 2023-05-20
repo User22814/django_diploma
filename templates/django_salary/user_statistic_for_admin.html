@@ -1,0 +1,41 @@
+{% extends 'django_salary/components/base.html' %}
+{% load static %}
+{% block title %}Состав разбора{% endblock title %}
+{% block main %}
+
+<div class="container-fluid mt-5">
+    <h3 class="mb-4">Статистика разборов</h3>
+    <hr class="my-4" style="opacity: 0;">
+  <div class="container-fluid">
+      <table class="table table-bordered border border-black">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Пользователь</th>
+              <th scope="col">Количество разборов</th>
+              <th scope="col">Количество элементов разборов</th>
+              <th scope="col">Количество возвратов</th>
+              <th scope="col">Процент возвратов</th>
+            </tr>
+            </thead>
+            <tbody>
+          {%  for elem_result in result %}
+            <tr>
+                <td>{{ elem_result.numeration }}</td>
+                <td>{{ elem_result.user }}</td>
+                <td>{{ elem_result.count_baseorders }}</td>
+                <td>{{ elem_result.count_orders }}</td>
+                <td>{{ elem_result.count_orders_vozvrat }}</td>
+                {% if elem_result.percentage < 10 %}
+                    <td class="text-success">{{ elem_result.percentage }}</td>
+                {% else %}
+                    <td class="text-danger">{{ elem_result.percentage }}</td>
+                {% endif %}
+            </tr>
+          {% empty %}
+              <td class="text-danger">Нет Пользователей, кроме admin</td>
+          {% endfor %}
+      </table>
+  </div>
+</div>
+{% endblock main %}

@@ -9,6 +9,7 @@
           {% if user.is_authenticated and user.is_superuser %}
             <li><a href="{% url 'baseorder_list' %} " class="nav-link px-2 text-white">Список всех разборов</a></li>
             <li><a href="{% url 'user_statistic' %} " class="nav-link px-2 text-white">Статистика персонала</a></li>
+            <li><a href="{% url 'user_statistic_for_admin' %} " class="nav-link px-2 text-white">Статистика разборов</a></li>
             <li><a href="{% url 'get_plot' %} " class="nav-link px-2 text-white">Графики персонала</a></li>
             <li><a href="{% url 'salary' %} " class="nav-link px-2 text-white">Распределение ЗП</a></li>
           {% elif user.is_authenticated and not user.is_superuser %}

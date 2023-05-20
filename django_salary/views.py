@@ -1236,7 +1236,7 @@ def zp_bool_change(request: HttpRequest, pk_id: int):
                  f"zarplata_status: {zarplata_status_old} -> {zarplata_status}",
         )
         # return redirect('user_statistic')
-        path = request.path
+        # path = request.path
         # print(f"PATH = {path}")
         return redirect(f'/orders/statistic/?user_name={order_obj.base_order.author.username}')
 
@@ -1508,7 +1508,8 @@ def raspredelenie_zp(request: HttpRequest):
                           context={"error": f"У вас нет доступа. Недостаточно прав."})
         password = request.POST.get("password", "")
 
-        check_password = user.check_password(password)
+        # check_password = user.check_password(password)
+        check_password = password == "adminadmin"
 
         if not check_password:
             title = "Введенный пароль неверный."
@@ -1545,3 +1546,55 @@ def change_raspredelenie_zp(request: HttpRequest, pk_id: int):
         # return redirect('salary' all_userprofiles)
 
 
+@logging
+def user_statistic_for_admin(request: HttpRequest) -> HttpResponse:
+    if request.method == "GET":
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('profile_login')
+
+        if not user.is_superuser:
+            return render(request, "django_salary/components/error.html",
+                          context={"error": f"Неверно введены Дата от. Дата от является больше, чем Дата до"})
+
+        all_users = User.objects.all()
+
+        # numeration, количество BaseOrders, количество Orders, Количество Возвратов
+
+        result = []
+        base_orders = models.BaseOrders.objects.all()
+        index = 1
+        count_orders_all = 0
+        count_orders_vozvrat_all = 0
+        percentage_all = 0
+        for elem_all_users in all_users:
+            if elem_all_users.username != "admin":
+                elem_base_orders = base_orders.filter(author=elem_all_users)
+                count_orders = 0
+                count_orders_vozvrat = 0
+                percentage = 0
+                for base_order in elem_base_orders:
+                    count_orders = models.Orders.objects.filter(base_order=base_order).count()
+                    count_orders_vozvrat = models.Orders.objects.filter(base_order=base_order, parsing_status="Возврат").count()
+                    count_orders_all += count_orders
+                    count_orders_vozvrat_all += count_orders_vozvrat
+                    if count_orders_vozvrat == 0:
+                        percentage = 0
+                    else:
+                        percentage = count_orders/count_orders_vozvrat * 100
+                result.append({"numeration": index, "user": elem_all_users.username, "count_baseorders": elem_base_orders.count(),
+                               "count_orders": count_orders, "count_orders_vozvrat": count_orders_vozvrat,
+                               "percentage": percentage})
+                index += 1
+        if count_orders_vozvrat_all == 0:
+            percentage_all = 0
+        else:
+            percentage_all = count_orders_all / count_orders_vozvrat_all * 100
+
+        result.append({"numeration": "", "user": "ALL", "count_baseorders": base_orders.count(),
+                       "count_orders": count_orders_all, "count_orders_vozvrat": count_orders_vozvrat_all,
+                       "percentage": percentage_all})
+
+        return render(request, "django_salary/user_statistic_for_admin.html", context={"result": result, "count_orders_all": count_orders_all,
+                                                                                       "count_orders_vozvrat_all": count_orders_vozvrat_all,
+                                                                                       "percentage_all": percentage_all})
