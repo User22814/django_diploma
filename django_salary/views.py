@@ -19,7 +19,7 @@ import plotly.graph_objs as go
 import plotly.offline as opy
 from django.core.cache import caches
 from django_salary.utils import logging
-from django.views.decorators.cache import cache_page
+import redis
 
 
 default_cache = caches['default']
@@ -30,8 +30,13 @@ KURS_OBMENA = 2.6083
 
 
 def cache(key: str, function_queryset: any) -> any:
+    redis_client = redis.Redis(host='78.40.109.35', port=6379, db=0)
+    redis_info = redis_client.info()
+    used_memory = redis_info['used_memory']
+    print(f"Redis использует {used_memory / 1024 / 1024} мб памяти.")
     memory_usage = psutil.Process().memory_info().rss
     memory_usage = memory_usage / 1024 / 1024
+    print(f"Python использует {memory_usage / 1024 / 1024} мб памяти.")
     # print(f"Доступно: {MAX_RAM_SIZE - memory_usage} мб")
     if memory_usage <= MAX_RAM_SIZE:
         # print("В cache RAM хватает")
