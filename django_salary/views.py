@@ -60,8 +60,10 @@ def update_cache(key: str, function_queryset: any) -> any:
     # print(f"Доступно в update_cache: {MAX_RAM_SIZE - memory_usage} мб")
     if memory_usage <= MAX_RAM_SIZE:
         # print("В update_cache RAM хватает")
-        result = function_queryset()
-        default_cache.set(key, result, timeout=10 * MULTIPLY)
+        result = default_cache.get(key)
+        if result:
+            result = function_queryset()
+            default_cache.set(key, result, timeout=10 * MULTIPLY)
         # print(result)
     else:
         # print("В update_cache RAM не хватает")
